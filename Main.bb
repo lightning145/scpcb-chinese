@@ -118,7 +118,7 @@ If LauncherEnabled Then
 	
 	;New "fake fullscreen" - ENDSHN Psst, it's called borderless windowed mode --Love Mark,
 	If BorderlessWindowed
-		DebugLog "Using Borderless Windowed Mode"
+		S_DebugLog "使用无边窗口模式"
 		Graphics3DExt(DesktopWidth(), DesktopHeight(), 0, 4)
 		
 		; -- Change the window style to 'WS_POPUP' and then set the window position to force the style to update.
@@ -158,7 +158,7 @@ Else
 	
 	;New "fake fullscreen" - ENDSHN Psst, it's called borderless windowed mode --Love Mark,
 	If BorderlessWindowed
-		DebugLog "Using Faked Fullscreen"
+		S_DebugLog "使用伪造的全屏"
 		Graphics3DExt(DesktopWidth(), DesktopHeight(), 0, 4)
 		
 		; -- Change the window style to 'WS_POPUP' and then set the window position to force the style to update.		
@@ -3312,9 +3312,9 @@ Function QuickLoadEvents()
 							e\room\NPC[0]\State = 0
 							e\room\NPC[0]\PrevState = 2
 							
-							DebugLog(EntityX(e\room\Objects[7],True)+", "+EntityY(e\room\Objects[7],True)+", "+EntityZ(e\room\Objects[7],True))
+							S_DebugLog(EntityX(e\room\Objects[7],True)+", "+EntityY(e\room\Objects[7],True)+", "+EntityZ(e\room\Objects[7],True))
 						Else
-							DebugLog "Skipped 049 spawning in room2sl"
+							S_DebugLog "跳过了 049 在 room2sl 中生成"
 						EndIf
 					EndIf
 					QuickLoadPercent = 80
@@ -3818,7 +3818,7 @@ Function DrawCredits()
 				CreditsTimer=-1.0
 			EndIf
 		EndIf
-		DebugLog CreditsTimer
+		S_DebugLog CreditsTimer
 	EndIf
 	If CreditsTimer<>0.0
 		For cl = Each CreditsLine
@@ -4150,7 +4150,7 @@ Function MovePlayer()
 	EndIf
 	
 	If HealTimer > 0 Then
-		DebugLog HealTimer
+		S_DebugLog HealTimer
 		HealTimer = HealTimer - (FPSfactor / 70)
 		Bloodloss = Min(Bloodloss + (2 / 400.0) * FPSfactor, 100)
 		Injuries = Max(Injuries - (FPSfactor / 70) / 30, 0.0)
@@ -4891,7 +4891,7 @@ Function DrawGUI()
 			If OtherOpen\SecondInv[n] <> Null Then
 				If (SelectedItem <> OtherOpen\SecondInv[n] Or isMouseOn) Then DrawImage(OtherOpen\SecondInv[n]\invimg, x + width / 2 - 32, y + height / 2 - 32)
 			EndIf
-			DebugLog "otheropen: "+(OtherOpen<>Null)
+			S_DebugLog "otheropen: "+(OtherOpen<>Null)
 			If OtherOpen\SecondInv[n] <> Null And SelectedItem <> OtherOpen\SecondInv[n] Then
 				If isMouseOn Then
 					SetFont Font1
@@ -5934,8 +5934,8 @@ Function DrawGUI()
 											If CurrUserTrack%<>0 Then FreeSound_Strict(CurrUserTrack%) : CurrUserTrack% = 0
 											CurrUserTrack% = LoadSound_Strict("SFX\Radio\UserTracks\"+UserTrackName$(RadioState(0)))
 											RadioCHN(0) = PlaySound_Strict(CurrUserTrack%)
-											DebugLog "CurrTrack: "+RadioState(0)
-											DebugLog UserTrackName$(RadioState(0))
+											S_DebugLog "当前频道: "+RadioState(0)
+											S_DebugLog UserTrackName$(RadioState(0))
 										Else
 											strtemp = strtemp + Upper(UserTrackName$(RadioState(0))) + "          "
 											UserTrackFlag = False
@@ -5958,12 +5958,12 @@ Function DrawGUI()
 											If CurrUserTrack%<>0 Then FreeSound_Strict(CurrUserTrack%) : CurrUserTrack% = 0
 											CurrUserTrack% = LoadSound_Strict("SFX\Radio\UserTracks\"+UserTrackName$(RadioState(0)))
 											RadioCHN(0) = PlaySound_Strict(CurrUserTrack%)
-											DebugLog "CurrTrack: "+RadioState(0)
-											DebugLog UserTrackName$(RadioState(0))
+											S_DebugLog "当前频道: "+RadioState(0)
+											S_DebugLog UserTrackName$(RadioState(0))
 										EndIf
 									EndIf
 								Case 1 ;hälytyskanava
-									DebugLog RadioState(1) 
+									S_DebugLog RadioState(1) 
 									
 									ResumeChannel(RadioCHN(1))
 									strtemp = "        警告 - 收容失效          "
@@ -6875,7 +6875,7 @@ Function DrawMenu()
     EndIf
 	If MenuOpen Then
 		
-		;DebugLog AchievementsMenu+"|"+OptionsMenu+"|"+QuitMSG
+		;S_DebugLog AchievementsMenu+"|"+OptionsMenu+"|"+QuitMSG
 		
 		If PlayerRoom\RoomTemplate\Name$ <> "exit1" And PlayerRoom\RoomTemplate\Name$ <> "gatea"
 			If StopHidingTimer = 0 Then
@@ -7354,7 +7354,7 @@ Function DrawMenu()
 			EndIf
 			
 			If AchievementsMenu>0 Then
-				;DebugLog AchievementsMenu
+				;S_DebugLog AchievementsMenu
 				If AchievementsMenu <= Floor(Float(MAXACHIEVEMENTS-1)/12.0) Then 
 					If DrawButton(x+341*MenuScale, y + 344*MenuScale, 50*MenuScale, 60*MenuScale, ">") Then
 						AchievementsMenu = AchievementsMenu+1
@@ -7872,7 +7872,7 @@ Function LoadEntities()
 		Forever
 		CloseDir Dir
 	EndIf
-	If EnableUserTracks Then DebugLog "User Tracks found: "+UserTrackMusicAmount
+	If EnableUserTracks Then S_DebugLog "发现自定义频道: "+UserTrackMusicAmount
 	
 	InitItemTemplates()
 	
@@ -8150,15 +8150,15 @@ Function InitNewGame()
 	For e.Events = Each Events
 		If e\EventName = "room2nuke"
 			e\EventState = 1
-			DebugLog "room2nuke"
+			S_DebugLog "room2nuke"
 		EndIf
 		If e\EventName = "room106"
 			e\EventState2 = 1
-			DebugLog "room106"
+			S_DebugLog "room106"
 		EndIf	
 		If e\EventName = "room2sl"
 			e\EventState3 = 1
-			DebugLog "room2sl"
+			S_DebugLog "room2sl"
 		EndIf
 	Next
 	
@@ -8274,7 +8274,7 @@ Function InitLoadGame()
 				DrawLoading(98)
 				UpdateChunks(e\room,15,False)
 				
-				DebugLog "Loaded dimension1499 successful"
+				S_DebugLog "加载dimension1499成功"
 				
 				Exit
 				;[End Block]
@@ -8877,7 +8877,7 @@ Function KillSounds()
 		Next
 	Next
 	
-	DebugLog "Terminated all sounds"
+	S_DebugLog "终止所有声音"
 End Function
 
 Function GetStepSound(entity%)
@@ -9322,7 +9322,7 @@ Function Use914(item.Items, setting$, x#, y#, z#)
 								EndIf
 							Next
 							
-							DebugLog CurrAchvAmount
+							S_DebugLog CurrAchvAmount
 							
 							Select SelectedDifficulty\otherFactors
 								Case EASY
@@ -9353,7 +9353,7 @@ Function Use914(item.Items, setting$, x#, y#, z#)
 						EndIf
 					Next
 					
-					DebugLog CurrAchvAmount
+					S_DebugLog CurrAchvAmount
 					
 					Select SelectedDifficulty\otherFactors
 						Case EASY
@@ -10893,7 +10893,7 @@ Function UpdateDeafPlayer()
 		If SFXVolume# > 0.0
 			ControlSoundVolume()
 		EndIf
-		DebugLog DeafTimer
+		S_DebugLog DeafTimer
 	Else
 		DeafTimer = 0
 		SFXVolume# = PrevSFXVolume#
@@ -11063,14 +11063,14 @@ Function TeleportEntity(entity%,x#,y#,z#,customradius#=0.3,isglobal%=False,pickr
 		Else
 			PositionEntity(entity, x,PickedY()+customradius#-0.02,z,isglobal)
 		EndIf
-		DebugLog "Entity teleported successfully"
+		S_DebugLog "实体已成功传送"
 	Else
 		PositionEntity(entity,x,y,z,isglobal)
-		DebugLog "Warning: no ground found when teleporting an entity"
+		S_DebugLog "警告：传送实体时未找到地面"
 	EndIf
 	FreeEntity pvt
 	ResetEntity entity
-	DebugLog "Teleported entity to: "+EntityX(entity)+"/"+EntityY(entity)+"/"+EntityZ(entity)
+	S_DebugLog "传送实体到: "+EntityX(entity)+"/"+EntityY(entity)+"/"+EntityZ(entity)
 End Function
 
 Function PlayStartupVideos()
@@ -11233,4 +11233,8 @@ Function Text(x%, y%, txt$, xPos% = 0, yPos% = 0, a# = 1.0)
 	EndIf
 	Color oldr, oldg, oldb
 	Return
+End Function
+
+Function S_DebugLog(txt$)
+	DebugLog(ConvertToANSI(txt))
 End Function

@@ -448,7 +448,7 @@ Function RemoveItem(i.Items)
 	
 	For n% = 0 To MaxItemAmount - 1
 		If Inventory(n) = i
-			DebugLog "Removed "+i\itemtemplate\name+" from slot "+n
+			S_DebugLog "移除 "+i\itemtemplate\name+" 从插槽 "+n
 			Inventory(n) = Null
 			ItemAmount = ItemAmount-1
 			Exit
@@ -574,7 +574,7 @@ Function UpdateItems()
 					Next
 				EndIf
 				
-				If EntityY(i\collider) < - 35.0 Then DebugLog "remove: " + i\itemtemplate\name:RemoveItem(i):deletedItem=True
+				If EntityY(i\collider) < - 35.0 Then S_DebugLog "移除: " + i\itemtemplate\name:RemoveItem(i):deletedItem=True
 			Else
 				HideEntity i\collider
 			EndIf
@@ -799,7 +799,7 @@ Function Update294()
 	EndIf
 	
 	If VomitTimer > 0 Then
-		DebugLog VomitTimer
+		S_DebugLog VomitTimer
 		VomitTimer = VomitTimer - (FPSfactor/70)
 		
 		If (MilliSecs() Mod 1600) < Rand(200, 400) Then

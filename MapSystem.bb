@@ -499,7 +499,7 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 	
 	;trigger boxes
 	If hasTriggerBox
-		DebugLog "TriggerBoxEnable"
+		S_DebugLog "TriggerBoxEnable"
 		rt\TempTriggerboxAmount = ReadInt(f)
 		For tb = 0 To rt\TempTriggerboxAmount-1
 			rt\TempTriggerbox[tb] = CreateMesh(rt\obj)
@@ -656,9 +656,9 @@ Function LoadRMesh(file$,rt.RoomTemplates)
 					EntityType model,HIT_MAP
 					EntityPickMode model,2
 				Else
-					DebugLog "file = 0"
+					S_DebugLog "file = 0"
 					temp1=ReadFloat(f) : temp2=ReadFloat(f) : temp3=ReadFloat(f)
-					DebugLog temp1+", "+temp2+", "+temp3
+					S_DebugLog temp1+", "+temp2+", "+temp3
 					
 					;Stop
 				EndIf
@@ -1111,7 +1111,7 @@ Function PlaceForest(fr.Forest,x#,y#,z#,r.Rooms)
 						tile_entity = CopyEntity(fr\TileMesh[ROOM4])	
 						tile_type = ROOM4
 					Default 
-						DebugLog "tile_type: "+tile_type
+						S_DebugLog "tile_type: "+tile_type
 				End Select
 				
 				If tile_type > 0 Then					
@@ -1197,7 +1197,7 @@ Function PlaceForest(fr.Forest,x#,y#,z#,r.Rooms)
 					
 					fr\TileEntities[tx+(ty*gridsize)] = tile_entity
 				Else
-					DebugLog "INVALID TILE @ ("+tx+", "+ty+ "): "+tile_type
+					S_DebugLog "INVALID TILE @ ("+tx+", "+ty+ "): "+tile_type
 				EndIf
 			EndIf
 			
@@ -1306,7 +1306,7 @@ Function PlaceForest_MapCreator(fr.Forest,x#,y#,z#,r.Rooms)
 	tempf3=MeshWidth(fr\TileMesh[ROOM1])
 	tempf1=tile_size/tempf3
 	
-	DebugLog "ForestINIT"
+	S_DebugLog "ForestINIT"
 	
 	For tx%=0 To gridsize-1
 		For ty%=0 To gridsize-1
@@ -1323,7 +1323,7 @@ Function PlaceForest_MapCreator(fr.Forest,x#,y#,z#,r.Rooms)
 				
 				tile_entity = CopyEntity(fr\TileMesh[tile_type])
 				
-				DebugLog "Tile: "+tile_type+"| Angle: "+angle
+				S_DebugLog "Tile: "+tile_type+"| Angle: "+angle
 				
 				If tile_type > 0 Then
 					;place trees and other details
@@ -1402,7 +1402,7 @@ Function PlaceForest_MapCreator(fr.Forest,x#,y#,z#,r.Rooms)
 					
 					PositionEntity tile_entity,x+(tx*tile_size),y,z+(ty*tile_size),True
 					
-					DebugLog "tile_entity: "+(x+(tx*tile_size))+"|"+(y)+"|"+(z+(ty*tile_size))
+					S_DebugLog "tile_entity: "+(x+(tx*tile_size))+"|"+(y)+"|"+(z+(ty*tile_size))
 					
 					EntityType tile_entity,HIT_MAP
 					EntityFX tile_entity,1
@@ -1413,7 +1413,7 @@ Function PlaceForest_MapCreator(fr.Forest,x#,y#,z#,r.Rooms)
 					
 					fr\TileEntities[tx+(ty*gridsize)] = tile_entity
 				Else
-					DebugLog "INVALID TILE @ ("+tx+", "+ty+ "): "+tile_type
+					S_DebugLog "INVALID TILE @ ("+tx+", "+ty+ "): "+tile_type
 				EndIf
 				
 				If Ceil(fr\grid[(ty*gridsize)+tx]/4.0)=6 Then
@@ -1446,12 +1446,12 @@ Function PlaceForest_MapCreator(fr.Forest,x#,y#,z#,r.Rooms)
 					Next
 				EndIf
 			Else
-				DebugLog "NO TILE FOUND @ ("+tx+", "+ty+ ")"
+				S_DebugLog "NO TILE FOUND @ ("+tx+", "+ty+ ")"
 			EndIf
 		Next
 	Next
 	
-	DebugLog "ForestINIT END"
+	S_DebugLog "ForestINIT END"
 	
 	CatchErrors("PlaceForest_MapCreator")
 End Function
@@ -1775,7 +1775,7 @@ Function PlaceGrid_MapCreator(r.Rooms)
 	
 	For i=0 To 6
 		Meshes[i]=CopyEntity(OBJTunnel(i))
-		DebugLog i
+		S_DebugLog i
 		HideEntity Meshes[i]
 	Next
 	
@@ -1811,12 +1811,12 @@ Function PlaceGrid_MapCreator(r.Rooms)
 							r\RoomDoors[1]=dr
 							r\Objects[3]=tempInt2
 							PositionEntity r\Objects[0],r\x+x*2.0,8.0,r\z+y*2.0,True
-							DebugLog "Created door 1 successfully!"
+							S_DebugLog "Created door 1 successfully!"
 						ElseIf r\RoomDoors[1]<>Null And r\RoomDoors[3]=Null Then
 							r\RoomDoors[3]=dr
 							r\Objects[5]=tempInt2
 							PositionEntity r\Objects[1],r\x+x*2.0,8.0,r\z+y*2.0,True
-							DebugLog "Created door 2 successfully!"
+							S_DebugLog "Created door 2 successfully!"
 						EndIf
 					Case ROOM4 + 2
 						AddLight%(Null, r\x+x*2.0-(Sin(EntityYaw(tile_entity,True))*504.0*RoomScale)+(Cos(EntityYaw(tile_entity,True))*16.0*RoomScale), 8.0+(396.0*RoomScale), r\z+y*2.0+(Cos(EntityYaw(tile_entity,True))*504.0*RoomScale)+(Sin(EntityYaw(tile_entity,True))*16.0*RoomScale), 2, 500.0 * RoomScale, 255, 200, 200)
@@ -4540,7 +4540,7 @@ Function FillRoom(r.Rooms)
 				b% = GetSurfaceBrush( sf )
 				t% = GetBrushTexture(b, 1)
 				texname$ = StripPath(TextureName(t))
-				DebugLog "texname: "+texname
+				S_DebugLog "texname: "+texname
 				If Lower(texname) = "1074tex1.jpg" Then
 					r\NonFreeAble[0] = sf ;the surface holding 1074's texture
 					FreeTexture t
@@ -5034,31 +5034,31 @@ Function FillRoom(r.Rooms)
 				PositionEntity r\Objects[i],r\x-207.94*RoomScale,r\y+(648.0+(112*i))*RoomScale,r\z-60.0686*RoomScale
 				RotateEntity r\Objects[i],0,105+r\angle,0
 				EntityParent r\Objects[i],r\obj
-				DebugLog i
+				S_DebugLog i
 			Next
 			For i = 3 To 5
 				PositionEntity r\Objects[i],r\x-231.489*RoomScale,r\y+(648.0+(112*(i-3)))*RoomScale,r\z+95.7443*RoomScale
 				RotateEntity r\Objects[i],0,90+r\angle,0
 				EntityParent r\Objects[i],r\obj
-				DebugLog i
+				S_DebugLog i
 			Next
 			For i = 6 To 8 Step 2
 				PositionEntity r\Objects[i],r\x-231.489*RoomScale,r\y+(648.0+(112*(i-6)))*RoomScale,r\z+255.744*RoomScale
 				RotateEntity r\Objects[i],0,90+r\angle,0
 				EntityParent r\Objects[i],r\obj
-				DebugLog i
+				S_DebugLog i
 			Next
 			For i = 9 To 11
 				PositionEntity r\Objects[i],r\x-231.489*RoomScale,r\y+(648.0+(112*(i-9)))*RoomScale,r\z+415.744*RoomScale
 				RotateEntity r\Objects[i],0,90+r\angle,0
 				EntityParent r\Objects[i],r\obj
-				DebugLog i
+				S_DebugLog i
 			Next
 			For i = 12 To 14
 				PositionEntity r\Objects[i],r\x-208.138*RoomScale,r\y+(648.0+(112*(i-12)))*RoomScale,r\z+571.583*RoomScale
 				RotateEntity r\Objects[i],0,75+r\angle,0
 				EntityParent r\Objects[i],r\obj
-				DebugLog i
+				S_DebugLog i
 			Next
 			
 			;Doors for room
@@ -5250,8 +5250,8 @@ Function FillRoom(r.Rooms)
 		For i = 0 To r\TriggerboxAmount-1
 			r\Triggerbox[i] = CopyEntity(r\RoomTemplate\TempTriggerbox[i],r\obj)
 			r\TriggerboxName[i] = r\RoomTemplate\TempTriggerboxName[i]
-			DebugLog "Triggerbox found: "+i
-			DebugLog "Triggerbox "+i+" name: "+r\TriggerboxName[i]
+			S_DebugLog "Triggerbox found: "+i
+			S_DebugLog "Triggerbox "+i+" name: "+r\TriggerboxName[i]
 		Next
 	EndIf
 	
@@ -5690,7 +5690,7 @@ Function InitWayPoints(loadingstart=45)
 		Next
 	Next
 	
-	DebugLog "InitWaypoints() - "+(MilliSecs()-temper)
+	S_DebugLog "InitWaypoints() - "+(MilliSecs()-temper)
 End Function
 
 Function RemoveWaypoint(w.WayPoints)
@@ -5703,7 +5703,7 @@ Dim MapF(MapWidth+1, MapHeight+1), MapG(MapWidth+1, MapHeight+1), MapH(MapWidth+
 Dim MapState(MapWidth+1, MapHeight+1)
 Dim MapParent(MapWidth+1, MapHeight+1, 2)
 Function FindPath(n.NPCs, x#, y#, z#)
-	DebugLog "findpath: "+n\NPCtype
+	S_DebugLog "findpath: "+n\NPCtype
 	
 	Local temp%, dist#, dist2#
 	Local xtemp#, ytemp#, ztemp#
@@ -5755,7 +5755,7 @@ Function FindPath(n.NPCs, x#, y#, z#)
 			EndIf
 		EndIf
 	Next
-	DebugLog "DIST: "+dist
+	S_DebugLog "DIST: "+dist
 	
 	FreeEntity temp
 	
@@ -5878,7 +5878,7 @@ Function FindPath(n.NPCs, x#, y#, z#)
 		
 		Return 1
 	Else
-		DebugLog "FUNCTION FindPath() - no route found"
+		S_DebugLog "FUNCTION FindPath() - no route found"
 		Return 2 
 	EndIf
 End Function
@@ -6138,7 +6138,7 @@ Function UpdateSecurityCams()
 							If (sc\CoffinEffect=1 Or sc\CoffinEffect=3) And (Not Wearing714) And (WearingHazmat<3) And (WearingGasMask<3) Then
 								If BlinkTimer > - 5
 									Sanity=Sanity-FPSfactor
-									DebugLog Sanity
+									S_DebugLog Sanity
 									RestoreSanity = False
 								EndIf
 							EndIf
@@ -6699,7 +6699,7 @@ End Function
 ;-------------------------------------------------------------------------------------------------------
 
 Function CreateMap()
-	DebugLog ("Generating a map using the seed "+RandomSeed)
+	S_DebugLog ("Generating a map using the seed "+RandomSeed)
 	
 	I_Zone\Transition[0] = 13
 	I_Zone\Transition[1] = 7
@@ -6896,7 +6896,7 @@ Function CreateMap()
 		End Select
 		
 		If Room4Amount[i]<1 Then ;we want at least 1 ROOM4
-			DebugLog "forcing a ROOM4 into zone "+i
+			S_DebugLog "forcing a ROOM4 into zone "+i
 			temp=0
 			
 			For y = zone To temp2
@@ -6918,7 +6918,7 @@ Function CreateMap()
 						End Select
 						If temp=1 Then
 							MapTemp(x,y)=4 ;turn this room into a ROOM4
-							DebugLog "ROOM4 forced into slot ("+x+", "+y+")"
+							S_DebugLog "ROOM4 forced into slot ("+x+", "+y+")"
 							Room4Amount[i]=Room4Amount[i]+1
 							Room3Amount[i]=Room3Amount[i]-1
 							Room1Amount[i]=Room1Amount[i]+1
@@ -6929,11 +6929,11 @@ Function CreateMap()
 				If temp=1 Then Exit
 			Next
 			
-			If temp=0 Then DebugLog "Couldn't place ROOM4 in zone "+i
+			If temp=0 Then S_DebugLog "Couldn't place ROOM4 in zone "+i
 		EndIf
 		
 		If Room2CAmount[i]<1 Then ;we want at least 1 ROOM2C
-			DebugLog "forcing a ROOM2C into zone "+i
+			S_DebugLog "forcing a ROOM2C into zone "+i
 			temp=0
 			
 			zone=zone+1
@@ -6948,13 +6948,13 @@ Function CreateMap()
 									If (MapTemp(x+1,y-2)+MapTemp(x+2,y-1)+MapTemp(x+1,y-1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x+1,y)=2
-										DebugLog "ROOM2C forced into slot ("+(x+1)+", "+(y)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x+1)+", "+(y)+")"
 										MapTemp(x+1,y-1)=1
 										temp=1
 									Else If (MapTemp(x+1,y+2)+MapTemp(x+2,y+1)+MapTemp(x+1,y+1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x+1,y)=2
-										DebugLog "ROOM2C forced into slot ("+(x+1)+", "+(y)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x+1)+", "+(y)+")"
 										MapTemp(x+1,y+1)=1
 										temp=1
 									EndIf
@@ -6964,13 +6964,13 @@ Function CreateMap()
 									If (MapTemp(x-1,y-2)+MapTemp(x-2,y-1)+MapTemp(x-1,y-1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x-1,y)=2
-										DebugLog "ROOM2C forced into slot ("+(x-1)+", "+(y)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x-1)+", "+(y)+")"
 										MapTemp(x-1,y-1)=1
 										temp=1
 									Else If (MapTemp(x-1,y+2)+MapTemp(x-2,y+1)+MapTemp(x-1,y+1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x-1,y)=2
-										DebugLog "ROOM2C forced into slot ("+(x-1)+", "+(y)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x-1)+", "+(y)+")"
 										MapTemp(x-1,y+1)=1
 										temp=1
 									EndIf
@@ -6980,13 +6980,13 @@ Function CreateMap()
 									If (MapTemp(x-2,y+1)+MapTemp(x-1,y+2)+MapTemp(x-1,y+1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x,y+1)=2
-										DebugLog "ROOM2C forced into slot ("+(x)+", "+(y+1)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x)+", "+(y+1)+")"
 										MapTemp(x-1,y+1)=1
 										temp=1
 									Else If (MapTemp(x+2,y+1)+MapTemp(x+1,y+2)+MapTemp(x+1,y+1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x,y+1)=2
-										DebugLog "ROOM2C forced into slot ("+(x)+", "+(y+1)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x)+", "+(y+1)+")"
 										MapTemp(x+1,y+1)=1
 										temp=1
 									EndIf
@@ -6996,13 +6996,13 @@ Function CreateMap()
 									If (MapTemp(x-2,y-1)+MapTemp(x-1,y-2)+MapTemp(x-1,y-1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x,y-1)=2
-										DebugLog "ROOM2C forced into slot ("+(x)+", "+(y-1)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x)+", "+(y-1)+")"
 										MapTemp(x-1,y-1)=1
 										temp=1
 									Else If (MapTemp(x+2,y-1)+MapTemp(x+1,y-2)+MapTemp(x+1,y-1))=0 Then
 										MapTemp(x,y)=2
 										MapTemp(x,y-1)=2
-										DebugLog "ROOM2C forced into slot ("+(x)+", "+(y-1)+")"
+										S_DebugLog "ROOM2C forced into slot ("+(x)+", "+(y-1)+")"
 										MapTemp(x+1,y-1)=1
 										temp=1
 									EndIf
@@ -7018,7 +7018,7 @@ Function CreateMap()
 				If temp=1 Then Exit
 			Next
 			
-			If temp=0 Then DebugLog "Couldn't place ROOM2C in zone "+i
+			If temp=0 Then S_DebugLog "Couldn't place ROOM2C in zone "+i
 		EndIf
 		
 	Next
@@ -7429,14 +7429,14 @@ Function CreateMap()
 End Function
 
 Function SetRoom(room_name$,room_type%,pos%,min_pos%,max_pos%) ;place a room without overwriting others
-	If max_pos<min_pos Then DebugLog "Can't place "+room_name : Return False
+	If max_pos<min_pos Then S_DebugLog "Can't place "+room_name : Return False
 	
-	DebugLog "--- SETROOM: "+Upper(room_name)+" ---"
+	S_DebugLog "--- SETROOM: "+Upper(room_name)+" ---"
 	Local looped%,can_place%
 	looped = False
 	can_place = True
 	While MapRoom(room_type,pos)<>""
-		DebugLog "found "+MapRoom(room_type,pos)
+		S_DebugLog "found "+MapRoom(room_type,pos)
 		pos=pos+1
 		If pos>max_pos Then
 			If looped=False Then
@@ -7447,13 +7447,13 @@ Function SetRoom(room_name$,room_type%,pos%,min_pos%,max_pos%) ;place a room wit
 			EndIf
 		EndIf
 	Wend
-	DebugLog room_name+" "+Str(pos)
+	S_DebugLog room_name+" "+Str(pos)
 	If can_place=True Then
-		DebugLog "--------------"
+		S_DebugLog "--------------"
 		MapRoom(room_type,pos)=room_name
 		Return True
 	Else
-		DebugLog "couldn't place "+room_name
+		S_DebugLog "couldn't place "+room_name
 		Return False
 	EndIf
 End Function
@@ -7466,7 +7466,7 @@ End Function
 
 
 Function load_terrain(hmap,yscale#=0.7,t1%,t2%,mask%)
-	DebugLog "load_terrain: "+hmap
+	S_DebugLog "load_terrain: "+hmap
 	
 	; load the heightmap
 	If hmap = 0 Then RuntimeError "Heightmap image "+hmap+" does not exist."
@@ -7877,13 +7877,13 @@ Function CreateChunkParts(r.Rooms)
 			StrTemp$ = IniGetString(File,"chunk"+i,"count")
 			chp = New ChunkPart
 			chp\Amount% = Int(StrTemp$)
-			DebugLog "------------------"
+			S_DebugLog "------------------"
 			For j = 0 To Int(StrTemp$)
 				Local objID% = IniGetString(File$,"chunk"+i,"obj"+j)
 				Local x$ = IniGetString(File$,"chunk"+i,"obj"+j+"-x")
 				Local z$ = IniGetString(File$,"chunk"+i,"obj"+j+"-z")
 				Local yaw$ = IniGetString(File$,"chunk"+i,"obj"+j+"-yaw")
-				DebugLog "1499 chunk X/Z/Yaw: "+x$+"|"+z$+"|"+yaw$
+				S_DebugLog "1499 chunk X/Z/Yaw: "+x$+"|"+z$+"|"+yaw$
 				chp\obj%[j] = CopyEntity(r\Objects[objID%])
 				If Lower(yaw$) = "random"
 					chp\RandomYaw#[j] = Rnd(360)
@@ -7902,8 +7902,8 @@ Function CreateChunkParts(r.Rooms)
 			If chp2 <> Null
 				chp\ID = chp2\ID+1
 			EndIf
-			DebugLog "<<<<<<<<<<<<<<<<"
-			DebugLog "Generated 1499 chunk "+chp\ID+" sucessfully"
+			S_DebugLog "<<<<<<<<<<<<<<<<"
+			S_DebugLog "Generated 1499 chunk "+chp\ID+" sucessfully"
 		EndIf
 	Next
 	
@@ -8126,7 +8126,7 @@ Function FindAndDeleteFakeMonitor(r.Rooms,x#,y#,z#,Amount%)
 					If EntityZ(r\Objects[i],True) = z#
 						FreeEntity r\Objects[i]
 						r\Objects[i]=0
-						DebugLog "Deleted Fake Monitor: "+i
+						S_DebugLog "Deleted Fake Monitor: "+i
 						Exit
 					EndIf
 				EndIf
@@ -8177,7 +8177,7 @@ Function CalculateRoomTemplateExtents(r.RoomTemplates)
 	r\MaxY = Mesh_MaxY
 	r\MaxZ = Mesh_MaxZ
 	
-	DebugLog("roomtemplateextents: "+r\MinX+", "+r\MinY	+", "+r\MinZ	+", "+r\MaxX	+", "+r\MaxY+", "+r\MaxZ)
+	S_DebugLog("roomtemplateextents: "+r\MinX+", "+r\MinY	+", "+r\MinZ	+", "+r\MaxX	+", "+r\MaxY+", "+r\MaxZ)
 End Function
 
 Function CalculateRoomExtents(r.Rooms)
@@ -8209,7 +8209,7 @@ Function CalculateRoomExtents(r.Rooms)
 		r\MinZ = tempZ
 	EndIf
 	
-	DebugLog("roomextents: "+r\MinX+", "+r\MinY	+", "+r\MinZ	+", "+r\MaxX	+", "+r\MaxY+", "+r\MaxZ)
+	S_DebugLog("roomextents: "+r\MinX+", "+r\MinY	+", "+r\MinZ	+", "+r\MaxX	+", "+r\MaxY+", "+r\MaxZ)
 End Function
 
 Function CheckRoomOverlap(r1.Rooms, r2.Rooms)
@@ -8272,7 +8272,7 @@ Function PreventRoomOverlap(r.Rooms)
 	
 	;room is ROOM2 and was able to be turned by 180 degrees
 	If (Not isIntersecting)
-		DebugLog "ROOM2 turning succesful! "+r\RoomTemplate\Name
+		S_DebugLog "ROOM2 turning succesful! "+r\RoomTemplate\Name
 		Return True
 	EndIf
 	
@@ -8348,10 +8348,10 @@ Function PreventRoomOverlap(r.Rooms)
 	
 	;room was able to the placed in a different spot
 	If (Not isIntersecting)
-		DebugLog "Room re-placing successful! "+r\RoomTemplate\Name
+		S_DebugLog "Room re-placing successful! "+r\RoomTemplate\Name
 		Return True
 	EndIf
 	
-	DebugLog "Couldn't fix overlap issue for room "+r\RoomTemplate\Name
+	S_DebugLog "Couldn't fix overlap issue for room "+r\RoomTemplate\Name
 	Return False
 End Function

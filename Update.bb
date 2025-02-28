@@ -57,14 +57,14 @@ Function CheckForUpdates%()
 	; ——子悦 2022/7/31
 	Local isUpdate% = Int(ParseDomainTXT(txt, "update")) & (ParseDomainTXT(txt, "compatible") = SinicizationNumber) ; 如果 新版本支持自动更新 且 允许当前版本自动更新
 	
-	DebugLog txt
+	S_DebugLog txt
 	If version = "" Then 
-		DebugLog "Get TXT failed!"
+		S_DebugLog "获取TXT失败!"
 		Return -1
 	EndIf
 
 	If version != SinicizationNumber Then ; 检测到新版本（TXT回答与汉化计划版本号不符）
-		DebugLog "Newer version!"
+		S_DebugLog "更新的版本!"
 		DownloadFile("https://scpcbgame.cn/changelog.txt", "changelog_website.txt") ; 下载文件，命名为changelog_website.txt
 		;Local ChangeLogFile% = ReadFile(ConvertToANSI("汉化更新日志.txt"))
 		Local ChangeLogFile% = ReadFile("changelog_website.txt") ; 读取文件
@@ -233,7 +233,7 @@ Function CheckForUpdates%()
 			Delay 8
 		Forever
 	Else 
-		DebugLog "No newer version!"
+		S_DebugLog "没有更新的版本!"
 		Return 1
 	EndIf
 	Delete Each ChangeLogLines

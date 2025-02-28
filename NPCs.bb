@@ -555,7 +555,7 @@ Function CreateNPC.NPCs(NPCtype%, x#, y#, z#)
 	n\ID = 0
 	n\ID = FindFreeNPCID()
 	
-	DebugLog ("Created NPC "+n\NVName+" (ID: "+n\ID+")")
+	S_DebugLog ("Created NPC "+n\NVName+" (ID: "+n\ID+")")
 	
 	NPCSpeedChange(n)
 	
@@ -713,7 +713,7 @@ Function UpdateNPCs()
 													If x < 25.0 And x > 15.0 Then
 														z = Abs(EntityZ(Collider)-EntityZ(w\obj,True))
 														If z < 25 And z > 15.0 Then
-															DebugLog "MOVING 173 TO "+w\room\roomtemplate\name
+															S_DebugLog "MOVING 173 TO "+w\room\roomtemplate\name
 															PositionEntity n\Collider, EntityX(w\obj,True), EntityY(w\obj,True)+0.25,EntityZ(w\obj,True)
 															ResetEntity n\Collider
 															Exit
@@ -1103,13 +1103,13 @@ Function UpdateNPCs()
 											n\SoundChn2 = PlaySound2(OldManSFX(6+Rand(0,2)),Camera,n\Collider)
                                             n\PathTimer = 0
                                             n\Reload = (70*10.0)/(SelectedDifficulty\otherFactors+1)
-                                            DebugLog "Teleported 106 (Distance: "+EntityDistance(n\Collider,Collider)+")"
+                                            S_DebugLog "Teleported 106 (Distance: "+EntityDistance(n\Collider,Collider)+")"
                                         EndIf
                                     EndIf
                                 EndIf
                             EndIf
                             n\Reload = Max(0, n\Reload - FPSfactor)
-                            DebugLog "106 in... "+n\Reload 
+                            S_DebugLog "106 in... "+n\Reload 
 							
 							UpdateSoundOrigin(n\SoundChn2,Camera,n\Collider)
 						Else ;idling outside the map
@@ -1559,7 +1559,7 @@ Function UpdateNPCs()
 								EndIf
 							Next
 							n\Idle = 0.0
-							DebugLog "SCP-049 not idle"
+							S_DebugLog "SCP-049 not idle"
 						EndIf
 					EndIf
 					
@@ -1766,7 +1766,7 @@ Function UpdateNPCs()
 													EndIf
 												Next
 												n\PathStatus = FindPath(n,EntityX(closestRoom\obj),0.5,EntityZ(closestRoom\obj))
-												DebugLog "Find path for 049 in another room (pathstatus: "+n\PathStatus+")"
+												S_DebugLog "Find path for 049 in another room (pathstatus: "+n\PathStatus+")"
 											EndIf
 											
 											;Making 3 attempts at finding a path
@@ -1777,13 +1777,13 @@ Function UpdateNPCs()
 														If n\Path[2]=Null And EntityDistance(n\Path[1]\obj,n\Collider)<0.4 Then
 															n\PathLocation = 0
 															n\PathStatus = 0
-															DebugLog "Breaking up path for 049 because no waypoint number 2 has been found and waypoint number 1 is too close."
+															S_DebugLog "Breaking up path for 049 because no waypoint number 2 has been found and waypoint number 1 is too close."
 														EndIf
 													EndIf
 													If n\Path[0]<>Null And n\Path[1]=Null Then
 														n\PathLocation = 0
 														n\PathStatus = 0
-														DebugLog "Breaking up path for 049 because no waypoint number 1 has been found."
+														S_DebugLog "Breaking up path for 049 because no waypoint number 1 has been found."
 													EndIf
 												EndIf
 												
@@ -1809,7 +1809,7 @@ Function UpdateNPCs()
 														EndIf
 													Next
 													n\PathStatus = FindPath(n,EntityX(closestRoom\obj),0.5,EntityZ(closestRoom\obj))
-													DebugLog "Find path for 049 in another further away room (pathstatus: "+n\PathStatus+")"
+													S_DebugLog "Find path for 049 in another further away room (pathstatus: "+n\PathStatus+")"
 												EndIf
 												
 												;Making 049 skip waypoints for doors he can't interact with, but only if the actual path is behind him
@@ -1825,7 +1825,7 @@ Function UpdateNPCs()
 																	EndIf
 																	If n\Path[n\PathLocation]<>Null Then
 																		If Abs(DeltaYaw(n\Collider,n\Path[n\PathLocation]\obj))>(45.0-Abs(DeltaYaw(n\Collider,n\Path[1]\obj))) Then
-																			DebugLog "Skip until waypoint number "+n\PathLocation
+																			S_DebugLog "Skip until waypoint number "+n\PathLocation
 																			n\State3 = 3
 																			Exit
 																		EndIf
@@ -1865,10 +1865,10 @@ Function UpdateNPCs()
 								If PlayerInReachableRoom(True) And InFacility=1 Then ;Player is in a room where SCP-049 can teleport to
 									If Rand(1,3-SelectedDifficulty\otherFactors)=1 Then
 										TeleportCloser(n)
-										DebugLog "SCP-049 teleported closer due to distance"
+										S_DebugLog "SCP-049 teleported closer due to distance"
 									Else
 										n\Idle = 60*70
-										DebugLog "SCP-049 is now idle"
+										S_DebugLog "SCP-049 is now idle"
 									EndIf
 								EndIf
 							EndIf
@@ -2203,7 +2203,7 @@ Function UpdateNPCs()
 								RotateEntity(pvt, Min(EntityPitch(pvt), 40), EntityYaw(n\Collider), 0)
 								
 								If n\Reload = 0
-									DebugLog "entitypick"
+									S_DebugLog "entitypick"
 									EntityPick(pvt, dist)
 									If PickedEntity() = Collider Or n\State3=1 Then
 										Local instaKillPlayer% = False
@@ -2387,7 +2387,7 @@ Function UpdateNPCs()
 								RotateEntity(pvt, Min(EntityPitch(pvt), 40), EntityYaw(n\Collider), 0)
 								
 								If n\Reload = 0
-									DebugLog "entitypick"
+									S_DebugLog "entitypick"
 									EntityPick(pvt, dist)
 									If PickedEntity() = Collider Or n\State3=1 Then
 										instaKillPlayer% = False
@@ -3198,9 +3198,9 @@ Function UpdateNPCs()
 											;in view -> nope, keep searching for a more suitable cell
 											If EntityInView(n\Collider, Camera) Then
 												PositionEntity n\Collider, 0, -110, 0
-												DebugLog("spawned monster in view -> hide")
+												S_DebugLog("spawned monster in view -> hide")
 											Else ; not in view -> all good
-												DebugLog("spawned monster successfully")												
+												S_DebugLog("spawned monster successfully")												
 												x2 = gridsize
 												Exit												
 											EndIf
@@ -3331,7 +3331,7 @@ Function UpdateNPCs()
 											
 											PositionEntity n\Collider, TFormedX(), EntityY(fr\Forest_Pivot,True)+1.0,TFormedZ()
 											
-											DebugLog(TFormedX()+", "+TFormedZ())
+											S_DebugLog(TFormedX()+", "+TFormedZ())
 											
 											If EntityInView(n\Collider, Camera) Then
 												BlinkTimer=-10
@@ -4606,7 +4606,7 @@ Function UpdateNPCs()
 									If n\State3 < 70*(15+(10*SelectedDifficulty\aggressiveNPCs))
 										n\State3 = n\State3+FPSfactor
 									Else
-										DebugLog "SCP-008-1 IDLE"
+										S_DebugLog "SCP-008-1 IDLE"
 										n\State3 = 70*(6*60)
 										n\State = 4
 									EndIf
@@ -4663,7 +4663,7 @@ Function UpdateNPCs()
 														z = Abs(EntityZ(n\Collider)-EntityZ(w\obj,True))
 														If z < 12 And z > 4.0 Then
 															If w\room\dist > 4
-																DebugLog "MOVING 008-1 TO "+w\room\roomtemplate\name
+																S_DebugLog "MOVING 008-1 TO "+w\room\roomtemplate\name
 																PositionEntity n\Collider, EntityX(w\obj,True), EntityY(w\obj,True)+0.25,EntityZ(w\obj,True)
 																ResetEntity n\Collider
 																n\PathStatus = 0
@@ -4923,7 +4923,7 @@ Function TeleportMTFGroup(n.NPCs)
 		EndIf
 	Next
 	
-	DebugLog "Teleported MTF Group (dist:"+EntityDistance(n\Collider,Collider)+")"
+	S_DebugLog "Teleported MTF Group (dist:"+EntityDistance(n\Collider,Collider)+")"
 	
 End Function
 
@@ -5035,7 +5035,7 @@ Function UpdateMTFUnit(n.NPCs)
 									x = r\x
 									y = 0.1
 									z = r\z
-									DebugLog r\RoomTemplate\Name
+									S_DebugLog r\RoomTemplate\Name
 									Exit
 								EndIf
 							Next
@@ -5056,7 +5056,7 @@ Function UpdateMTFUnit(n.NPCs)
 										
 										If Distance(EntityX(pvt%),EntityZ(pvt%),EntityX(n\Collider),EntityZ(n\Collider))<3.5
 											foundChamber% = True
-											DebugLog Distance(EntityX(pvt%),EntityZ(pvt%),EntityX(n\Collider),EntityZ(n\Collider))
+											S_DebugLog Distance(EntityX(pvt%),EntityZ(pvt%),EntityX(n\Collider),EntityZ(n\Collider))
 										EndIf
 										
 										If Curr173\Idle = 3 And Distance(EntityX(pvt%),EntityZ(pvt%),EntityX(n\Collider),EntityZ(n\Collider)) > 4.0
@@ -5069,12 +5069,12 @@ Function UpdateMTFUnit(n.NPCs)
 											x = EntityX(r\obj,True)+4736*RoomScale
 											y = 0.1
 											z = EntityZ(r\obj,True)+1692*RoomScale
-											DebugLog "Move to 173's chamber"
+											S_DebugLog "Move to 173's chamber"
 											Exit
 										ElseIf Distance(EntityX(n\Collider),EntityZ(n\Collider),EntityX(r\obj,True)+4736*RoomScale,EntityZ(r\obj,True)+1692*RoomScale)>1.6 And foundChamber
 											n\PathX = EntityX(r\obj,True)+4736*RoomScale
 											n\PathZ = EntityZ(r\obj,True)+1692*RoomScale
-											DebugLog "Move inside 173's chamber"
+											S_DebugLog "Move inside 173's chamber"
 											Exit
 										Else
 											Curr173\Idle = 3
@@ -5084,7 +5084,7 @@ Function UpdateMTFUnit(n.NPCs)
 											n\Sound = LoadSound_Strict("SFX\Character\MTF\173\Cont"+Rand(1,4)+".ogg")
 											PlayMTFSound(n\Sound, n)
 											PlayAnnouncement("SFX\Character\MTF\Announc173Contain.ogg")
-											DebugLog "173 contained"
+											S_DebugLog "173 contained"
 											Exit
 										EndIf
 									EndIf
@@ -5093,7 +5093,7 @@ Function UpdateMTFUnit(n.NPCs)
 								x = EntityX(Curr173\Collider)
 								y = 0.1
 								z = EntityZ(Curr173\Collider)
-								DebugLog "Going back to 173's cage"
+								S_DebugLog "Going back to 173's cage"
 							EndIf
 						EndIf
 						If n\PathX=0 Then n\PathStatus = FindPath(n,x,y,z) ;we're going to this room for no particular reason
@@ -5252,7 +5252,7 @@ Function UpdateMTFUnit(n.NPCs)
 					n\EnemyY = EntityY(Collider,True)
 					n\EnemyZ = EntityZ(Collider,True)
 					n\State2 = 70.0*(15.0*temp) ;give up after 15 seconds (30 seconds if detected by loud noise, over camera: 45)
-					DebugLog "player spotted :"+n\State2
+					S_DebugLog "player spotted :"+n\State2
 					n\PathTimer=0.0
 					n\PathStatus=0
 					n\Reload = 200-(100*SelectedDifficulty\aggressiveNPCs)
@@ -5271,7 +5271,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\State3 = 0.0
 							n\PathTimer=0.0
 							n\PathStatus=0
-							DebugLog "173 spotted :"+n\State2
+							S_DebugLog "173 spotted :"+n\State2
 							If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 							n\Sound = LoadSound_Strict("SFX\Character\MTF\173\Spotted"+Rand(1,2)+".ogg")
 							PlayMTFSound(n\Sound, n)
@@ -5291,7 +5291,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\PathTimer = 0.0
 							n\PathStatus = 0
 							n\Target = Curr106
-							DebugLog "106 spotted :"+n\State2
+							S_DebugLog "106 spotted :"+n\State2
 							If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 							n\Sound = LoadSound_Strict("SFX\Character\MTF\106\Spotted"+Rand(1,3)+".ogg")
 							PlayMTFSound(n\Sound, n)
@@ -5310,7 +5310,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\State3 = 0.0
 							n\PathTimer = 0.0
 							n\PathStatus = 0
-							DebugLog "096 spotted :"+n\State2
+							S_DebugLog "096 spotted :"+n\State2
 							If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 							n\Sound = LoadSound_Strict("SFX\Character\MTF\096\Spotted"+Rand(1,2)+".ogg")
 							PlayMTFSound(n\Sound, n)
@@ -5331,7 +5331,7 @@ Function UpdateMTFUnit(n.NPCs)
 								n\PathTimer = 0.0
 								n\PathStatus = 0
 								n\Target = n2
-								DebugLog "049 spotted :"+n\State2
+								S_DebugLog "049 spotted :"+n\State2
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\049\Spotted"+Rand(1,5)+".ogg")
 								PlayMTFSound(n\Sound, n)
@@ -5351,7 +5351,7 @@ Function UpdateMTFUnit(n.NPCs)
 								n\PathStatus = 0
 								n\Target = n2
 								n\Reload = 70*5
-								DebugLog "049-2 spotted :"+n\State2
+								S_DebugLog "049-2 spotted :"+n\State2
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\049\Player0492_1.ogg")
 								PlayMTFSound(n\Sound, n)
@@ -5371,7 +5371,7 @@ Function UpdateMTFUnit(n.NPCs)
 								n\PathStatus = 0
 								n\Target = n2
 								n\Reload = 70*5
-								DebugLog "008 spotted :"+n\State2
+								S_DebugLog "008 spotted :"+n\State2
 								Exit
 							EndIf
 						EndIf
@@ -5589,7 +5589,7 @@ Function UpdateMTFUnit(n.NPCs)
                 
                 If n\State2<=0.0 And n\State2+FPSfactor >0.0 Then
 					If n\MTFLeader = Null Then
-						DebugLog "targetlost: "+n\State2
+						S_DebugLog "targetlost: "+n\State2
 						PlayMTFSound(LoadTempSound("SFX\Character\MTF\Targetlost"+Rand(1,3)+".ogg"),n)
 						If MTF_CameraCheckTimer=0.0
 							If Rand(15-(7*SelectedDifficulty\aggressiveNPCs))=1 ;Maybe change this to another chance - ENDSHN
@@ -5611,7 +5611,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\EnemyY = EntityY(Curr173\Collider,True)
 							n\EnemyZ = EntityZ(Curr173\Collider,True)
 							n\State2 = 70.0*15.0 ;give up after 15 seconds
-							DebugLog "173 spotted :"+n\State2
+							S_DebugLog "173 spotted :"+n\State2
 							If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 							n\Sound = LoadSound_Strict("SFX\Character\MTF\173\Spotted3.ogg")
 							PlayMTFSound(n\Sound, n)
@@ -5634,7 +5634,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\PathTimer = 0.0
 							n\PathStatus = 0
 							n\Target = Curr106
-							DebugLog "106 spotted :"+n\State2
+							S_DebugLog "106 spotted :"+n\State2
 							If n\MTFLeader=Null
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\106\Spotted4.ogg")
@@ -5655,7 +5655,7 @@ Function UpdateMTFUnit(n.NPCs)
 							n\State3 = 0.0
 							n\PathTimer = 0.0
 							n\PathStatus = 0
-							DebugLog "096 spotted :"+n\State2
+							S_DebugLog "096 spotted :"+n\State2
 							If n\MTFLeader=Null
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\096\Spotted"+Rand(1,2)+".ogg")
@@ -5678,7 +5678,7 @@ Function UpdateMTFUnit(n.NPCs)
 								n\PathTimer = 0.0
 								n\PathStatus = 0
 								n\Target = n2
-								DebugLog "049 spotted :"+n\State2
+								S_DebugLog "049 spotted :"+n\State2
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\049\Spotted"+Rand(1,5)+".ogg")
 								PlayMTFSound(n\Sound, n)
@@ -5698,7 +5698,7 @@ Function UpdateMTFUnit(n.NPCs)
 								n\PathStatus = 0
 								n\Target = n2
 								n\Reload = 70*5
-								DebugLog "049-2 spotted :"+n\State2
+								S_DebugLog "049-2 spotted :"+n\State2
 								If n\Sound <> 0 Then FreeSound_Strict n\Sound : n\Sound = 0
 								n\Sound = LoadSound_Strict("SFX\Character\MTF\049\Player0492_1.ogg")
 								PlayMTFSound(n\Sound, n)
@@ -5732,7 +5732,7 @@ Function UpdateMTFUnit(n.NPCs)
 						If curr173Dist<tempDist Then
 							If n\MTFLeader = Null Then
 								n\State3=n\State3+FPSfactor
-								DebugLog "CONTAINING 173: "+n\State3
+								S_DebugLog "CONTAINING 173: "+n\State3
 								If n\State3>=70.0*15.0 Then
 									Curr173\Idle = 2
 									If n\MTFLeader = Null Then Curr173\Target = n
@@ -5978,7 +5978,7 @@ Function UpdateMTFUnit(n.NPCs)
 										x = r\x
 										y = 0.1
 										z = r\z
-										DebugLog r\RoomTemplate\Name
+										S_DebugLog r\RoomTemplate\Name
 										Exit
 									EndIf
 								EndIf
@@ -6148,7 +6148,7 @@ Function UpdateMTFUnit(n.NPCs)
 								x = r\x
 								y = 0.1
 								z = r\z
-								DebugLog r\RoomTemplate\Name
+								S_DebugLog r\RoomTemplate\Name
 								Exit
 							EndIf
 						Next
@@ -6952,7 +6952,7 @@ Function FindNextElevator(n.NPCs)
 								If EntityDistance(eo2\obj,n\Collider)<EntityDistance(eo\obj,n\Collider)
 									n\PathStatus = FindPath(n, EntityX(eo2\obj,True),EntityY(eo2\obj,True),EntityZ(eo2\obj,True))
 									n\CurrElevator = eo2
-									DebugLog "eo2 found for "+n\NPCtype
+									S_DebugLog "eo2 found for "+n\NPCtype
 									Exit
 								EndIf
 							EndIf
@@ -6962,11 +6962,11 @@ Function FindNextElevator(n.NPCs)
 				If n\CurrElevator = Null
 					n\PathStatus = FindPath(n, EntityX(eo\obj,True),EntityY(eo\obj,True),EntityZ(eo\obj,True))
 					n\CurrElevator = eo
-					DebugLog "eo found for "+n\NPCtype
+					S_DebugLog "eo found for "+n\NPCtype
 				EndIf
 				If n\PathStatus <> 1
 					n\CurrElevator = Null
-					DebugLog "Unable to find elevator path: Resetting CurrElevator"
+					S_DebugLog "Unable to find elevator path: Resetting CurrElevator"
 				EndIf
 				Exit
 			EndIf
@@ -6995,14 +6995,14 @@ Function GoToElevator(n.NPCs)
 		If n\CurrElevator\door\open
 			If (dist# > 0.4 And dist# < 0.7) And inside%
 				UseDoor(n\CurrElevator\door,False)
-				DebugLog n\NPCtype+" used elevator"
+				S_DebugLog n\NPCtype+" used elevator"
 			EndIf
 		Else
 			If dist# < 0.7
 				n\CurrSpeed = 0.0
 				If n\CurrElevator\door\NPCCalledElevator=False
 					n\CurrElevator\door\NPCCalledElevator = True
-					DebugLog n\NPCtype+" called elevator"
+					S_DebugLog n\NPCtype+" called elevator"
 				EndIf
 			EndIf
 		EndIf

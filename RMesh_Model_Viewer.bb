@@ -2,6 +2,10 @@ Global XE_XF,XE_MAXtextures
 
 SetFont LoadFont("GFX\fonts\Containment Breach.ttf", 15)
 
+Function S_DebugLog(txt$)
+	DebugLog(ConvertToANSI(txt))
+End Function
+
 Type XE_texdata
 	Field idx,h,fn$
 End Type
@@ -88,7 +92,7 @@ Function writemesh(mesh,e_filename$)
 End Function
 
 Function RecursiveAddMaterial(h,forcematerial$,e_directory$="")
-	DebugLog CountChildren(h)
+	S_DebugLog CountChildren(h)
 
 	If EntityClass$(h)="Mesh"
 		;get neccacaries
@@ -102,7 +106,7 @@ Function RecursiveAddMaterial(h,forcematerial$,e_directory$="")
 				from$=TextureName(tex)
 				XE_XFilen$=strip_path(from)
 				CopyFile from,e_directory+XE_XFilen$
-				DebugLog "Copying tex to "+e_directory+XE_XFilen$
+				S_DebugLog "Copying tex to "+e_directory+XE_XFilen$
 			Else
 				XE_XFilen$=strip_path(forcematerial$)
 			EndIf 
@@ -164,7 +168,7 @@ Function GetStringofMatElement$(mesh,x,y)
 	ElseIf Len(dp$)=5
 		final$=me$+"0"
 	EndIf
-	DebugLog "Matrix="+me$+" ("+dp$+") "+final$
+	S_DebugLog "Matrix="+me$+" ("+dp$+") "+final$
 	Return final$
 End Function
 
@@ -173,9 +177,9 @@ Function RecursiveAddMesh(h,basescaleX#=1,basescaleY#=1,basescaleZ#=1)
 		recuse_depth=recuse_depth+1
 		
 		chiname$=EntityName(h)
-		DebugLog "Recursing "+chiname+" Childs="+CountChildren(h)+" Depth="+recuse_depth
+		S_DebugLog "Recursing "+chiname+" Childs="+CountChildren(h)+" Depth="+recuse_depth
 		If chiname="" Or Instr(chiname,"NoName") chiname="NoName"+MilliSecs()
-		DebugLog chiname
+		S_DebugLog chiname
 
 		mesh=h
 
@@ -266,7 +270,7 @@ Function RecursiveAddMesh(h,basescaleX#=1,basescaleY#=1,basescaleZ#=1)
 			Next	 
 		EndIf
 		;do all childs.. of childs etc
-		DebugLog "has "+CountChildren(h)
+		S_DebugLog "has "+CountChildren(h)
 		For cc=CountChildren(h) To 1 Step -1
 			chi=GetChild (h,cc)
 			RecursiveAddMesh(chi,basescaleX#,basescaleY#,basescaleZ#)
@@ -275,7 +279,7 @@ Function RecursiveAddMesh(h,basescaleX#=1,basescaleY#=1,basescaleZ#=1)
 
 		;close branch frame
 		WriteLine XE_XF,"   } // End of frame"+ChiName$
-		DebugLog "recuse_depth Depth "+recuse_depth
+		S_DebugLog "recuse_depth Depth "+recuse_depth
 
 
 	recuse_depth=recuse_depth-1

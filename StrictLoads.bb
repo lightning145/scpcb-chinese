@@ -19,7 +19,7 @@ Function LoadImage_Strict(file$)
 	Return tmp
 	;attempt to load the image again
 	If tmp = 0 Then tmp2 = LoadImage(file)
-	DebugLog "Attempting to load again: "+file
+	S_DebugLog "尝试再次加载: "+file
 	Return tmp2
 End Function
 
@@ -296,7 +296,7 @@ Function LoadMesh_Strict(File$,parent=0)
 End Function   
 
 Function LoadAnimMesh_Strict(File$,parent=0)
-	DebugLog File
+	S_DebugLog File
 	If TraditionalChinese Then
 		If FileType("Traditional\" + file) = 1 Then Return LoadAnimMesh("Traditional\" + file, parent)
 	EndIf

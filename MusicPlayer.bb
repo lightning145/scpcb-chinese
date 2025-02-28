@@ -3,6 +3,10 @@
 ; 所以到底有多少东西胎死腹中了？
 ; ——子悦 2022年5月15日
 
+Function S_DebugLog(txt$)
+	DebugLog(ConvertToANSI(txt))
+End Function
+
 Include "BlitzAL.bb"
 
 AppTitle "收容失效 音乐播放器"
@@ -89,7 +93,7 @@ Repeat
 			If Right(Music(i),4)=".ogg"
 				If Button(x,y,width,height,ShortLine(Music(i),25),(i=CurrMusic))
 					CurrMusic = i
-					DebugLog "Playing Music: "+Music(i)
+					S_DebugLog "正在播放音乐: "+Music(i)
 					CurrBarTime# = 0.0
 					PrevBarTime# = 0.0
 					AppTitle "收容失效 音乐播放器 - 正在播放："+Chr(34)+Music(i)+Chr(34)
@@ -116,7 +120,7 @@ Repeat
 			If Right(Music(i+MusicAmount),4)=".ogg" Or Right(Music(i+MusicAmount),4)=".wav"
 				If Button(x,y,width,height,ShortLine(Music(i+MusicAmount),25),(i+MusicAmount=CurrMusic))
 					CurrMusic = i+MusicAmount
-					DebugLog "Playing Music: "+Music(i+MusicAmount)
+					S_DebugLog "正在播放音乐: "+Music(i+MusicAmount)
 					CurrBarTime# = 0.0
 					PrevBarTime# = 0.0
 					AppTitle "收容失效 音乐播放器 - 正在播放："+Chr(34)+Music(i+MusicAmount)+Chr(34)

@@ -480,7 +480,7 @@ Function UpdateMainMenu()
 								
 								If DrawButton(x + 400 * MenuScale, y + 20 * MenuScale, 100 * MenuScale, 30 * MenuScale, "删除", False) Then
 									SaveMSG = SaveGames(i - 1)
-									DebugLog SaveMSG
+									S_DebugLog SaveMSG
 									Exit
 								EndIf
 							Else
@@ -735,7 +735,7 @@ Function UpdateMainMenu()
 								DrawOptionsTooltip(tx,ty,tw,th,"usertrackmode")
 							EndIf
 							If DrawButton(x + 20 * MenuScale, y + 30 * MenuScale + 1, 190 * MenuScale, 25 * MenuScale, "扫描自定频道",False)
-								DebugLog "User Tracks Check Started"
+								S_DebugLog "自定频道已开始"
 
 								UserTrackCheck% = 0
 								UserTrackCheck2% = 0
@@ -755,7 +755,7 @@ Function UpdateMainMenu()
 								Forever
 								CloseDir Dir
 
-								DebugLog "User Tracks Check Ended"
+								S_DebugLog "自定频道检查结束"
 							EndIf
 							If MouseOn(x+20*MenuScale,y+30*MenuScale,190*MenuScale,25*MenuScale)
 								DrawOptionsTooltip(tx,ty,tw,th,"usertrackscan")
